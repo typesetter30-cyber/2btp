@@ -18,10 +18,13 @@ export function Header() {
   const pathname = normalize(usePathname() || "/");
   const { openConsult } = useConsult();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
+  const servicesId = useId();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -30,12 +33,14 @@ export function Header() {
 
   useEffect(() => {
     setMenuOpen(false);
+    setServicesOpen(false);
   }, [pathname]);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
     const onChange = () => {
       if (media.matches) setMenuOpen(false);
+      else setServicesOpen(false);
     };
     media.addEventListener("change", onChange);
     return () => media.removeEventListener("change", onChange);
@@ -47,6 +52,15 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!servicesOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setServicesOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [servicesOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -98,17 +112,33 @@ export function Header() {
     <header className={`site-header sticky top-0 z-50 ${scrolled ? "is-scrolled" : ""}`}>
       <div className="wrap flex h-16 items-center justify-between gap-3">
         <Logo />
-        <nav className="hidden items-center gap-6 xl:gap-7 lg:flex" aria-label="Основное меню">
-          <div className="group relative">
-            <button type="button" className="nav-link min-h-11" aria-haspopup="true">
+        <nav className="hidden items-center gap-6 xl:gap-8 lg:flex" aria-label="Основное меню">
+          <div
+            ref={servicesRef}
+            className="relative"
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => setServicesOpen(false)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setServicesOpen(false);
+            }}
+          >
+            <button
+              type="button"
+              className="nav-link min-h-11"
+              aria-haspopup="true"
+              aria-expanded={servicesOpen}
+              aria-controls={servicesId}
+              onClick={() => setServicesOpen((value) => !value)}
+              onFocus={() => setServicesOpen(true)}
+            >
               Услуги
             </button>
-            <div className="nav-drop absolute top-full left-0 z-20 w-72 pt-3">
-              <ul className="nav-panel overflow-hidden py-1">
+            <div id={servicesId} className={`nav-drop absolute top-full left-0 z-20 w-80 pt-3 ${servicesOpen ? "is-open" : ""}`}>
+              <ul className="nav-panel overflow-hidden py-1.5">
                 {services.map((service) => (
                   <li key={service.href}>
-                    <Link href={service.href} className="block min-h-11 px-3 py-2.5 hover:bg-paper">
-                      <span className="block text-[0.9375rem]">{service.title}</span>
+                    <Link href={service.href} className="block min-h-11 px-4 py-2.5">
+                      <span className="block text-[0.9375rem] font-medium">{service.title}</span>
                       <span className="caption mt-0.5 block">{service.summary}</span>
                     </Link>
                   </li>
@@ -122,10 +152,10 @@ export function Header() {
           <Link href="/contacts/" className="nav-link min-h-11 inline-flex items-center" aria-current={pathname === "/contacts" ? "page" : undefined}>
             Контакты
           </Link>
-          <a href={company.phoneHref} className="nav-link min-h-11 inline-flex items-center">
+          <a href={company.phoneHref} className="nav-link min-h-11 inline-flex items-center font-semibold">
             {company.phoneDisplay}
           </a>
-          <ConsultButton variant="quiet">Консультация</ConsultButton>
+          <ConsultButton className="min-h-11 px-5 text-[0.9375rem]">Консультация</ConsultButton>
         </nav>
         <div className="flex shrink-0 items-center gap-2 lg:hidden">
           <a
@@ -179,7 +209,7 @@ export function Header() {
           </div>
           <button
             type="button"
-            className="btn btn-primary mt-5 w-full min-h-11"
+            className="btn btn-primary mt-6 w-full"
             onClick={() => {
               setMenuOpen(false);
               openConsult();

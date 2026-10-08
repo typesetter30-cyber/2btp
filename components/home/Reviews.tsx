@@ -29,7 +29,7 @@ export function Reviews() {
           <p className="caption">Отзывы на {reviewStats.source}</p>
           <p className="review-score">
             {reviewStats.score}
-            <span className="ml-3 align-middle text-base font-sans text-muted">
+            <span className="ml-3 align-middle text-base font-sans font-normal tracking-normal text-muted">
               {reviewStats.ratings} · {reviewStats.reviews}
             </span>
           </p>
@@ -43,22 +43,21 @@ export function Reviews() {
           </button>
         </div>
       </div>
-      <figure className="glass mt-5 px-5 py-5 md:px-6 md:py-6" key={review.name}>
-        <blockquote className="review-quote max-w-3xl text-base leading-relaxed md:text-lg">«{review.text}»</blockquote>
-        <figcaption className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="font-medium">{review.name}</span>
+      <figure className="review-card" key={review.name}>
+        <blockquote className="review-quote max-w-3xl">«{review.text}»</blockquote>
+        <figcaption className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="font-semibold">{review.name}</span>
           <span className="caption">{review.topic}</span>
         </figcaption>
       </figure>
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap" role="tablist" aria-label="Отзывы">
+        <div className="flex flex-wrap">
           {reviews.map((item, itemIndex) => (
             <button
               key={item.name}
               type="button"
-              role="tab"
-              aria-selected={itemIndex === index}
-              aria-label={item.name}
+              aria-current={itemIndex === index ? "true" : undefined}
+              aria-label={`Отзыв ${itemIndex + 1}: ${item.name}`}
               className="review-dot"
               onClick={() => setIndex(itemIndex)}
             >

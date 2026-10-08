@@ -6,8 +6,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer border-t border-night-line bg-night text-paper">
-      <div className="wrap grid gap-10 py-12 md:grid-cols-12">
+    <footer className="site-footer bg-night text-white">
+      <div className="wrap grid gap-10 py-12 md:grid-cols-12 md:py-16">
         <div className="md:col-span-4">
           <Logo inverted />
           <p className="mt-5 max-w-xs small text-night-muted">
@@ -16,7 +16,7 @@ export function Footer() {
         </div>
         <div className="md:col-span-4">
           <p className="caption text-night-muted">Услуги</p>
-          <ul className="mt-4 grid gap-1 small">
+          <ul className="mt-3 grid gap-1 small">
             {services.map((service) => (
               <li key={service.href}>
                 <Link href={service.href} className="footer-link">
@@ -33,9 +33,9 @@ export function Footer() {
         </div>
         <div className="md:col-span-4">
           <p className="caption text-night-muted">Контакты</p>
-          <ul className="mt-4 grid gap-1 small leading-relaxed">
+          <ul className="mt-3 grid gap-1 small leading-relaxed">
             <li>
-              <a href={company.phoneHref} className="footer-link">
+              <a href={company.phoneHref} className="footer-link font-semibold text-white">
                 {company.phoneDisplay}
               </a>
             </li>
@@ -44,8 +44,8 @@ export function Footer() {
                 {company.email}
               </a>
             </li>
-            <li className="px-0 py-2">{company.hours}</li>
-            <li className="px-0 py-2">{company.footerAddress}</li>
+            <li className="px-0 py-2 text-night-muted">{company.hours}</li>
+            <li className="px-0 py-2 text-night-muted">{company.footerAddress}</li>
             <li className="px-0 py-2 text-night-muted">Юридический адрес: {company.legalAddress}</li>
             <li>
               <a href={company.telegram} className="footer-link" target="_blank" rel="noreferrer">
@@ -59,11 +59,9 @@ export function Footer() {
         <div className="wrap flex flex-col gap-3 py-5 caption text-night-muted md:flex-row md:items-center md:justify-between">
           <p suppressHydrationWarning>
             © {year}{" "}
-            <a href="https://2btp.ru" className="hover:text-paper">
-              2btp.ru
-            </a>
+            <a href="https://2btp.ru">2btp.ru</a>
           </p>
-          <p className="flex flex-wrap gap-x-4 gap-y-1">
+          <p className="flex flex-wrap gap-x-5 gap-y-1">
             <Link href="/politika-konfidencialnosti/" className="footer-link">
               Политика конфиденциальности
             </Link>

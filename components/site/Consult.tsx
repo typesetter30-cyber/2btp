@@ -97,18 +97,18 @@ function ConsultDialog({ topic, onClose }: { topic: string; onClose: () => void 
 
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center">
-      <button type="button" aria-label="Закрыть" className="absolute inset-0 bg-night/50" onClick={onClose} />
+      <button type="button" aria-label="Закрыть" className="absolute inset-0 bg-night/60" onClick={onClose} />
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="consult-dialog relative max-h-[min(92dvh,40rem)] w-full overflow-y-auto rounded-t-[10px] border border-white/70 bg-card px-5 py-6 shadow-[0_16px_40px_rgba(22,19,17,0.12)] sm:max-w-lg sm:rounded-[10px] sm:px-7 sm:py-7"
+        className="consult-dialog relative max-h-[min(92dvh,42rem)] w-full overflow-y-auto rounded-t-3xl border border-line bg-white px-5 py-6 shadow-[0_24px_60px_rgba(20,24,31,0.18)] sm:max-w-lg sm:rounded-3xl sm:px-8 sm:py-8"
       >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="caption">Консультация</p>
-            <h2 id={titleId} className="h2 mt-2">
+            <h2 id={titleId} className="h3 mt-1 text-2xl">
               Получить консультацию
             </h2>
           </div>
