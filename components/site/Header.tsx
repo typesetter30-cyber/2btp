@@ -62,7 +62,7 @@ export function Header() {
       }
       if (event.key !== "Tab") return;
       const items = [menuButtonRef.current, ...Array.from(menu?.querySelectorAll<HTMLElement>("a, button") ?? [])].filter(
-        (item): item is HTMLElement => Boolean(item) && !item.hasAttribute("disabled"),
+        (item): item is HTMLElement => item !== null && !item.hasAttribute("disabled"),
       );
       if (!items.length) return;
       const firstItem = items[0];
