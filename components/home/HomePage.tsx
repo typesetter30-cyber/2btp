@@ -89,7 +89,7 @@ function InsurerList() {
 export function HomePage() {
   return (
     <>
-      <section className="hero wrap">
+      <section className="hero wrap zone zone-warm">
         <div className="hero-grid">
           <div className="hero-copy rise">
             <h1 className="display">Бухгалтерия, ипотека, страхование и право</h1>
@@ -126,8 +126,10 @@ export function HomePage() {
         </p>
       </section>
 
-      <section className="section appear" aria-labelledby="services-title">
-        <div className="wrap">
+      <hr className="zone-edge" />
+
+      <section className="section has-slab appear zone zone-cool" aria-labelledby="services-title">
+        <div className="wrap slab">
           <h2 id="services-title" className="h2 section-head">
             Услуги
           </h2>
@@ -146,7 +148,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear" aria-labelledby="audience-title">
+      <section className="section appear zone zone-violet" aria-labelledby="audience-title">
         <div className="wrap">
           <h2 id="audience-title" className="h2 section-head">
             Кому помогаем
@@ -180,7 +182,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear" aria-labelledby="pay-title">
+      <section className="section appear zone zone-warm" aria-labelledby="pay-title">
         <div className="wrap">
           <div className="band-ink sheen pay-band">
             <div className="pay-grid">
@@ -212,8 +214,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear" aria-labelledby="trust-title">
-        <div className="wrap">
+      <section className="section has-slab appear zone zone-teal" aria-labelledby="trust-title">
+        <div className="wrap slab">
           <h2 id="trust-title" className="h2 section-head">
             Что можно проверить
           </h2>
@@ -233,7 +235,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear" aria-labelledby="partners-title">
+      <section className="section appear zone zone-cool" aria-labelledby="partners-title">
         <div className="wrap">
           <h2 id="partners-title" className="h2 section-head">
             Партнёры
@@ -259,8 +261,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear" aria-labelledby="process-title">
-        <div className="wrap">
+      <section className="section has-slab appear zone zone-violet" aria-labelledby="process-title">
+        <div className="wrap slab">
           <h2 id="process-title" className="h2 section-head">
             Как проходит обращение
           </h2>
@@ -276,13 +278,15 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear">
+      <section className="section appear zone zone-warm">
         <div className="wrap">
           <Reviews />
         </div>
       </section>
 
-      <section className="section wrap appear" aria-labelledby="self-title">
+      <hr className="zone-edge" />
+
+      <section className="section wrap appear zone zone-teal" aria-labelledby="self-title">
         <div className="glass sheen self-band">
           <div className="self-photo">
             <Image
@@ -306,7 +310,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section wrap appear" aria-labelledby="cta-title">
+      <section className="section wrap appear zone zone-warm" aria-labelledby="cta-title">
         <div className="band-ink sheen close-band">
           <div className="close-grid">
             <h2 id="cta-title" className="display">
