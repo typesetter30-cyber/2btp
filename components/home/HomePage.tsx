@@ -72,7 +72,7 @@ const steps: Array<{ title: string; text: string }> = [
 
 function InsurerList() {
   return (
-    <ul className="partner-grid mt-4">
+    <ul className="partner-grid mt-3">
       {insurers.map((partner) => (
         <li key={partner.name} className="partner-cell">
           <a href={partner.href} target="_blank" rel="noreferrer">
@@ -112,7 +112,7 @@ export function HomePage() {
             />
           </div>
         </div>
-        <p className="hero-facts">
+        <p className="hero-facts rise rise-late">
           <span>Новосибирск · {company.legalName}</span>
           <a href={company.yandexMaps} target="_blank" rel="noreferrer" className="hero-award link">
             <Image src="/brand/ya-good-place.png" alt="" width={28} height={38} className="h-9 w-auto" />
@@ -125,7 +125,7 @@ export function HomePage() {
         </p>
       </section>
 
-      <section className="section band-surface" aria-labelledby="services-title">
+      <section className="section" aria-labelledby="services-title">
         <div className="wrap">
           <h2 id="services-title" className="h2 section-head">
             Услуги
@@ -149,7 +149,7 @@ export function HomePage() {
             Кому помогаем
           </h2>
           <div className="audience">
-            <div className="audience-card is-dark">
+            <div className="glass-dark audience-card">
               <p className="caption">Для компаний</p>
               <h3 className="h3 mt-2">Бизнесу</h3>
               <ul className="task-list">
@@ -161,7 +161,7 @@ export function HomePage() {
                 ))}
               </ul>
             </div>
-            <div className="audience-card">
+            <div className="glass audience-card">
               <p className="caption">Для людей</p>
               <h3 className="h3 mt-2">Частным клиентам</h3>
               <ul className="task-list">
@@ -177,29 +177,33 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band-ink" aria-labelledby="pay-title">
-        <div className="wrap pay-grid">
-          <div>
-            <h2 id="pay-title" className="h2">
-              Приём платежей для бизнеса
-            </h2>
-            <p className="lead mt-5">
-              Полный цикл в пользу юридических лиц: от приёма средств до отправки получателю, с документами и чеками.
-            </p>
-          </div>
-          <div className="pay-card">
-            <p className="caption">Решение Банка России</p>
-            <p className="pay-number mt-2">13.08.2024 № 14-51/5297</p>
-            <p className="small mt-4 max-w-sm text-night-muted">
-              Это услуга для ваших клиентов. Оплата работ самой компании — отдельно.
-            </p>
-            <div className="cta-row mt-6">
-              <Link href="/operator-po-priemu-platezhey/" className="btn btn-primary">
-                Условия для бизнеса
-              </Link>
-              <Link href="/payment/" className="link inline-flex min-h-11 items-center">
-                Оплатить услугу компании
-              </Link>
+      <section className="section" aria-labelledby="pay-title">
+        <div className="wrap">
+          <div className="band-ink pay-band">
+            <div className="pay-grid">
+              <div>
+                <h2 id="pay-title" className="h2">
+                  Приём платежей для бизнеса
+                </h2>
+                <p className="lead mt-5">
+                  Полный цикл в пользу юридических лиц: от приёма средств до отправки получателю, с документами и чеками.
+                </p>
+              </div>
+              <div className="pay-card">
+                <p className="caption">Решение Банка России</p>
+                <p className="pay-number mt-2">13.08.2024 № 14-51/5297</p>
+                <p className="small mt-4 max-w-sm text-night-muted">
+                  Это услуга для ваших клиентов. Оплата работ самой компании — отдельно.
+                </p>
+                <div className="cta-row mt-6">
+                  <Link href="/operator-po-priemu-platezhey/" className="btn btn-primary">
+                    Условия для бизнеса
+                  </Link>
+                  <Link href="/payment/" className="link inline-flex min-h-11 items-center">
+                    Оплатить услугу компании
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -212,7 +216,7 @@ export function HomePage() {
           </h2>
           <dl className="fact-grid">
             {facts.map((fact) => (
-              <div key={fact.title} className="fact-card">
+              <div key={fact.title} className="glass fact-card">
                 <dt>{fact.title}</dt>
                 <dd className="small mt-1 text-muted">{fact.text}</dd>
               </div>
@@ -226,7 +230,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band-surface" aria-labelledby="partners-title">
+      <section className="section" aria-labelledby="partners-title">
         <div className="wrap">
           <h2 id="partners-title" className="h2 section-head">
             Партнёры
@@ -239,7 +243,7 @@ export function HomePage() {
               </li>
             ))}
           </ul>
-          <div className="mt-10">
+          <div className="mt-8">
             <div className="hidden md:block">
               <h3 className="h3">Страховые компании</h3>
               <InsurerList />
@@ -259,9 +263,9 @@ export function HomePage() {
           </h2>
           <ol className="steps">
             {steps.map((step, index) => (
-              <li key={step.title}>
+              <li key={step.title} className="glass">
                 <span className="step-num">Шаг {index + 1}</span>
-                <h3 className="h3 mt-2">{step.title}</h3>
+                <h3 className="h3 mt-3">{step.title}</h3>
                 <p className="small mt-2 text-muted">{step.text}</p>
               </li>
             ))}
@@ -269,14 +273,14 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band-surface">
+      <section className="section">
         <div className="wrap">
           <Reviews />
         </div>
       </section>
 
       <section className="section wrap" aria-labelledby="self-title">
-        <div className="self-band">
+        <div className="glass self-band">
           <div className="self-photo">
             <Image
               src="/photos/self-employed.jpg"
@@ -299,20 +303,22 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="band-ink" aria-labelledby="cta-title">
-        <div className="wrap close-grid">
-          <h2 id="cta-title" className="display">
-            Расскажите, какая задача стоит
-          </h2>
-          <div>
-            <p className="small text-night-muted">
-              {company.hours}. {company.weekend}.
-            </p>
-            <div className="cta-row mt-5">
-              <ConsultButton variant="light">Получить консультацию</ConsultButton>
-              <a href={company.telegram} className="link inline-flex min-h-11 items-center" target="_blank" rel="noreferrer">
-                Telegram
-              </a>
+      <section className="section wrap" aria-labelledby="cta-title">
+        <div className="band-ink close-band">
+          <div className="close-grid">
+            <h2 id="cta-title" className="display">
+              Расскажите, какая задача стоит
+            </h2>
+            <div>
+              <p className="small text-night-muted">
+                {company.hours}. {company.weekend}.
+              </p>
+              <div className="cta-row mt-5">
+                <ConsultButton variant="light">Получить консультацию</ConsultButton>
+                <a href={company.telegram} className="link inline-flex min-h-11 items-center" target="_blank" rel="noreferrer">
+                  Telegram
+                </a>
+              </div>
             </div>
           </div>
         </div>

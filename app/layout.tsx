@@ -66,6 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ru" className={`${sans.variable} ${display.variable}`}>
       <body>
+        <div className="bg-decor" aria-hidden="true" />
         <JsonLd data={organization} />
         <a
           href="#content"
