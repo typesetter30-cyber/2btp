@@ -66,7 +66,30 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ru" className={`${sans.variable} ${display.variable}`}>
       <body>
-        <div className="bg-decor" aria-hidden="true" />
+        <svg className="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+          <defs>
+            {/* Преломление: шум смещает пиксели фона под стеклом */}
+            <filter id="glass-refract" x="-25%" y="-25%" width="150%" height="150%" colorInterpolationFilters="sRGB">
+              <feTurbulence type="fractalNoise" baseFrequency="0.009 0.014" numOctaves="2" seed="7" result="noise" />
+              <feGaussianBlur in="noise" stdDeviation="7" result="softNoise" />
+              <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="34" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+              <feGaussianBlur in="displaced" stdDeviation="6" />
+            </filter>
+            <filter id="glass-refract-soft" x="-25%" y="-25%" width="150%" height="150%" colorInterpolationFilters="sRGB">
+              <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="3" result="noise" />
+              <feGaussianBlur in="noise" stdDeviation="6" result="softNoise" />
+              <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="18" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+              <feGaussianBlur in="displaced" stdDeviation="10" />
+            </filter>
+          </defs>
+        </svg>
+        <div className="bg-decor" aria-hidden="true">
+          <span className="orb orb-1" />
+          <span className="orb orb-2" />
+          <span className="orb orb-3" />
+          <span className="orb orb-4" />
+          <span className="bg-grain" />
+        </div>
         <JsonLd data={organization} />
         <a
           href="#content"

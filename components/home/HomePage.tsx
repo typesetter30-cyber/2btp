@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { ConsultButton } from "@/components/site/Consult";
 import { Reviews } from "@/components/home/Reviews";
+import { Tilt } from "@/components/home/Tilt";
 import { company, companyPartners, insurers, services } from "@/lib/site";
 
 function Mark({ logo }: { name: string; logo?: string }) {
@@ -112,7 +113,7 @@ export function HomePage() {
             />
           </div>
         </div>
-        <p className="hero-facts rise rise-late">
+        <p className="hero-facts glass-refract sheen rise rise-late">
           <span>Новосибирск · {company.legalName}</span>
           <a href={company.yandexMaps} target="_blank" rel="noreferrer" className="hero-award link">
             <Image src="/brand/ya-good-place.png" alt="" width={28} height={38} className="h-9 w-auto" />
@@ -125,7 +126,7 @@ export function HomePage() {
         </p>
       </section>
 
-      <section className="section" aria-labelledby="services-title">
+      <section className="section appear" aria-labelledby="services-title">
         <div className="wrap">
           <h2 id="services-title" className="h2 section-head">
             Услуги
@@ -133,17 +134,19 @@ export function HomePage() {
           <ul className="svc-index">
             {services.map((service) => (
               <li key={service.href} className="svc-row">
-                <Link href={service.href}>
-                  <span className="svc-name">{service.title}</span>
-                  <span className="svc-note">{service.summary}</span>
-                </Link>
+                <Tilt>
+                  <Link href={service.href} className="svc-card">
+                    <span className="svc-name">{service.title}</span>
+                    <span className="svc-note">{service.summary}</span>
+                  </Link>
+                </Tilt>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="section" aria-labelledby="audience-title">
+      <section className="section appear" aria-labelledby="audience-title">
         <div className="wrap">
           <h2 id="audience-title" className="h2 section-head">
             Кому помогаем
@@ -177,9 +180,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="pay-title">
+      <section className="section appear" aria-labelledby="pay-title">
         <div className="wrap">
-          <div className="band-ink pay-band">
+          <div className="band-ink sheen pay-band">
             <div className="pay-grid">
               <div>
                 <h2 id="pay-title" className="h2">
@@ -209,17 +212,17 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="trust-title">
+      <section className="section appear" aria-labelledby="trust-title">
         <div className="wrap">
           <h2 id="trust-title" className="h2 section-head">
             Что можно проверить
           </h2>
           <dl className="fact-grid">
             {facts.map((fact) => (
-              <div key={fact.title} className="glass fact-card">
+              <Tilt key={fact.title} className="glass fact-card">
                 <dt>{fact.title}</dt>
                 <dd className="small mt-1 text-muted">{fact.text}</dd>
-              </div>
+              </Tilt>
             ))}
           </dl>
           <p className="mt-6">
@@ -230,7 +233,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="partners-title">
+      <section className="section appear" aria-labelledby="partners-title">
         <div className="wrap">
           <h2 id="partners-title" className="h2 section-head">
             Партнёры
@@ -256,7 +259,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="process-title">
+      <section className="section appear" aria-labelledby="process-title">
         <div className="wrap">
           <h2 id="process-title" className="h2 section-head">
             Как проходит обращение
@@ -273,14 +276,14 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section appear">
         <div className="wrap">
           <Reviews />
         </div>
       </section>
 
-      <section className="section wrap" aria-labelledby="self-title">
-        <div className="glass self-band">
+      <section className="section wrap appear" aria-labelledby="self-title">
+        <div className="glass sheen self-band">
           <div className="self-photo">
             <Image
               src="/photos/self-employed.jpg"
@@ -303,8 +306,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section wrap" aria-labelledby="cta-title">
-        <div className="band-ink close-band">
+      <section className="section wrap appear" aria-labelledby="cta-title">
+        <div className="band-ink sheen close-band">
           <div className="close-grid">
             <h2 id="cta-title" className="display">
               Расскажите, какая задача стоит

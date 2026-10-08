@@ -43,7 +43,7 @@ export function Reviews() {
           </button>
         </div>
       </div>
-      <figure className="glass review-card" key={review.name}>
+      <figure className="glass sheen review-card" key={review.name}>
         <blockquote className="review-quote max-w-3xl">«{review.text}»</blockquote>
         <figcaption className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <span className="font-semibold">{review.name}</span>
