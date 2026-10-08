@@ -1,0 +1,18 @@
+# зависимости
+/node_modules
+
+# сборка Next.js
+/.next
+/out
+
+# TypeScript
+*.tsbuildinfo
+
+# окружение
+.env
+.env.local
+.env*.local
+
+# прочее
+.DS_Store
+*.log
