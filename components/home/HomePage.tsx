@@ -18,6 +18,7 @@ import {
 import { ConsultButton } from "@/components/site/Consult";
 import { Reviews } from "@/components/home/Reviews";
 import { Tilt } from "@/components/home/Tilt";
+import { HeroStage } from "@/components/home/HeroStage";
 import { company, companyPartners, insurers, services } from "@/lib/site";
 
 function Mark({ logo }: { name: string; logo?: string }) {
@@ -89,10 +90,11 @@ function InsurerList() {
 export function HomePage() {
   return (
     <>
-      <section className="hero wrap zone zone-warm">
+      <HeroStage>
+        <section className="hero wrap">
         <div className="hero-grid">
           <div className="hero-copy rise">
-            <h1 className="display">Бухгалтерия, ипотека, страхование и право</h1>
+            <h1 className="display hero-title">Бухгалтерия, ипотека, страхование и право</h1>
             <p className="lead mt-5">
               Одна компания для учёта, полисов, ипотеки, приёма платежей, оценки и юридических вопросов — бизнесу и частным клиентам.
             </p>
@@ -124,12 +126,11 @@ export function HomePage() {
             Платёжный агент Банка России. {company.cbDecision}.
           </span>
         </p>
-      </section>
+        </section>
+      </HeroStage>
 
-      <hr className="zone-edge" />
-
-      <section className="section has-slab appear zone zone-cool" aria-labelledby="services-title">
-        <div className="wrap slab">
+      <section className="section band band-tint glow-cool appear" aria-labelledby="services-title">
+        <div className="wrap">
           <h2 id="services-title" className="h2 section-head">
             Услуги
           </h2>
@@ -148,7 +149,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear zone zone-violet" aria-labelledby="audience-title">
+      <section className="section band band-light glow-violet appear" aria-labelledby="audience-title">
         <div className="wrap">
           <h2 id="audience-title" className="h2 section-head">
             Кому помогаем
@@ -182,10 +183,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear zone zone-warm" aria-labelledby="pay-title">
+      <section className="section band band-deep appear" aria-labelledby="pay-title">
         <div className="wrap">
-          <div className="band-ink sheen pay-band">
-            <div className="pay-grid">
+          <div className="pay-grid">
               <div>
                 <h2 id="pay-title" className="h2">
                   Приём платежей для бизнеса
@@ -208,14 +208,13 @@ export function HomePage() {
                     Оплатить услугу компании
                   </Link>
                 </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section has-slab appear zone zone-teal" aria-labelledby="trust-title">
-        <div className="wrap slab">
+      <section className="section band band-tint glow-teal appear" aria-labelledby="trust-title">
+        <div className="wrap">
           <h2 id="trust-title" className="h2 section-head">
             Что можно проверить
           </h2>
@@ -235,7 +234,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear zone zone-cool" aria-labelledby="partners-title">
+      <section className="section band band-light glow-cool appear" aria-labelledby="partners-title">
         <div className="wrap">
           <h2 id="partners-title" className="h2 section-head">
             Партнёры
@@ -261,8 +260,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section has-slab appear zone zone-violet" aria-labelledby="process-title">
-        <div className="wrap slab">
+      <section className="section band band-tint glow-violet appear" aria-labelledby="process-title">
+        <div className="wrap">
           <h2 id="process-title" className="h2 section-head">
             Как проходит обращение
           </h2>
@@ -278,15 +277,14 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section appear zone zone-warm">
+      <section className="section band band-light glow-warm appear">
         <div className="wrap">
           <Reviews />
         </div>
       </section>
 
-      <hr className="zone-edge" />
-
-      <section className="section wrap appear zone zone-teal" aria-labelledby="self-title">
+      <section className="section band band-tint glow-teal appear" aria-labelledby="self-title">
+        <div className="wrap">
         <div className="glass sheen self-band">
           <div className="self-photo">
             <Image
@@ -308,10 +306,11 @@ export function HomePage() {
             <p className="caption mt-3 break-all">erid: {company.selfEmployedErid}</p>
           </div>
         </div>
+        </div>
       </section>
 
-      <section className="section wrap appear zone zone-warm" aria-labelledby="cta-title">
-        <div className="band-ink sheen close-band">
+      <section className="section band band-deep appear" aria-labelledby="cta-title">
+        <div className="wrap">
           <div className="close-grid">
             <h2 id="cta-title" className="display">
               Расскажите, какая задача стоит

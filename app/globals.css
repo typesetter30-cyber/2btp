@@ -211,53 +211,13 @@
   .glass {
     position: relative;
     isolation: isolate;
-    border: 1px solid rgba(255, 255, 255, 0.55);
+    border: 1px solid #e3e7ee;
     border-radius: var(--radius-lg);
-    background:
-      linear-gradient(145deg, rgba(255, 255, 255, 0.66) 0%, rgba(255, 255, 255, 0.48) 42%, rgba(255, 255, 255, 0.62) 100%);
+    background: #ffffff;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      inset 1px 0 0 rgba(255, 255, 255, 0.6),
-      inset -1px 0 0 rgba(255, 255, 255, 0.35),
-      inset 0 -1px 0 rgba(17, 21, 28, 0.06),
-      inset 0 -14px 24px -18px rgba(17, 21, 28, 0.3),
-      0 1px 1px rgba(17, 21, 28, 0.04),
-      0 12px 28px -8px rgba(17, 21, 28, 0.14),
-      0 30px 60px -24px rgba(17, 21, 28, 0.18);
-    backdrop-filter: blur(9px) saturate(165%) brightness(1.02);
-  }
-
-  /* Блик, медленно скользящий по поверхности. Только на крупных
-     панелях: на каждой карточке он стоит кадров. */
-  .sheen::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    border-radius: inherit;
-    background: linear-gradient(105deg, transparent 32%, rgba(255, 255, 255, 0.55) 46%, transparent 60%);
-    background-size: 280% 100%;
-    opacity: 0.75;
-    animation: sheen 14s ease-in-out infinite;
-  }
-
-  @keyframes sheen {
-    0%,
-    62% {
-      background-position: 160% 0;
-    }
-
-    100% {
-      background-position: -60% 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .sheen::after {
-      animation: none;
-      background-position: 120% 0;
-    }
+      inset 0 1px 0 #ffffff,
+      0 1px 2px rgba(17, 21, 28, 0.04),
+      0 12px 28px -14px rgba(17, 21, 28, 0.16);
   }
 
   .glass-strong {
@@ -278,17 +238,13 @@
   .glass-dark {
     position: relative;
     isolation: isolate;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+    border: 1px solid #1d2430;
     border-radius: var(--radius-lg);
-    background:
-      linear-gradient(145deg, rgba(30, 36, 46, 0.86) 0%, rgba(17, 21, 28, 0.84) 45%, rgba(23, 28, 37, 0.88) 100%);
+    background: linear-gradient(160deg, #1b212c 0%, #11151c 58%, #171d27 100%);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.16),
-      inset 1px 0 0 rgba(255, 255, 255, 0.07),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-      0 18px 40px -12px rgba(17, 21, 28, 0.4),
-      0 40px 80px -32px rgba(17, 21, 28, 0.5);
-    backdrop-filter: blur(12px) saturate(150%);
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 18px 40px -18px rgba(17, 21, 28, 0.45);
     color: #ffffff;
   }
 
@@ -361,114 +317,110 @@
   }
 
   /* ============================================================
-     ЗОНЫ
-     Страница делится на зоны: у каждой свой цвет воздуха, своя
-     поверхность и грань на стыке. Без этого стеклянные панели
-     тянутся одной сплошной лентой.
+     ПОЛОСЫ
+     Страница собрана из полноширинных полос с собственным, плотным
+     фоном. Живой градиент и стекло остаются там, где им есть что
+     показывать: первый экран и тёмные полосы.
      ============================================================ */
 
-  .zone {
+  .band {
     position: relative;
     isolation: isolate;
   }
 
-  /* Цветное свечение зоны: привязано к секции, а не к экрану,
-     поэтому при прокрутке настроение меняется. */
-  .zone::before {
+  /* Светлая полоса */
+  .band-light {
+    background: #ffffff;
+  }
+
+  /* Тонированная полоса */
+  .band-tint {
+    background: linear-gradient(180deg, #eef1f6 0%, #e9edf4 100%);
+  }
+
+  .band-tint::before,
+  .band-light::before {
     content: "";
     position: absolute;
-    inset: -8% 0;
+    inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: var(--zone-glow, none);
+    background: var(--band-glow, none);
   }
 
-  .zone-warm {
-    --zone-glow: radial-gradient(44rem 26rem at 78% 12%, rgba(222, 42, 27, 0.26), transparent 64%);
+  .glow-warm {
+    --band-glow: radial-gradient(40rem 22rem at 86% 8%, rgba(222, 42, 27, 0.09), transparent 62%);
   }
 
-  .zone-cool {
-    --zone-glow: radial-gradient(42rem 26rem at 14% 24%, rgba(52, 102, 196, 0.26), transparent 64%);
+  .glow-cool {
+    --band-glow: radial-gradient(38rem 22rem at 10% 14%, rgba(52, 102, 196, 0.1), transparent 62%);
   }
 
-  .zone-violet {
-    --zone-glow: radial-gradient(46rem 28rem at 86% 70%, rgba(138, 86, 196, 0.26), transparent 64%);
+  .glow-violet {
+    --band-glow: radial-gradient(42rem 24rem at 88% 82%, rgba(138, 86, 196, 0.1), transparent 62%);
   }
 
-  .zone-teal {
-    --zone-glow: radial-gradient(42rem 26rem at 20% 76%, rgba(28, 148, 174, 0.26), transparent 64%);
+  .glow-teal {
+    --band-glow: radial-gradient(38rem 22rem at 14% 86%, rgba(28, 148, 174, 0.1), transparent 62%);
   }
 
-  /* Плита: секция лежит на собственной стеклянной поверхности.
-     Чередуется с секциями прямо на фоне — это и даёт ритм. */
-  .slab {
+  /* Тёмная полоса — смысловой якорь страницы */
+  .band-deep {
     position: relative;
-    border-radius: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.34) 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      inset 0 -1px 0 rgba(17, 21, 28, 0.04),
-      0 1px 2px rgba(17, 21, 28, 0.03),
-      0 30px 70px -40px rgba(17, 21, 28, 0.22);
+    overflow: hidden;
+    background: #11151c;
+    color: #ffffff;
   }
 
-  .slab {
-    padding: 1.75rem 1.25rem;
-  }
-
-  @media (min-width: 768px) {
-    .slab {
-      padding: 2.75rem 2.5rem;
-    }
-  }
-
-  @media (min-width: 900px) {
-    .slab {
-      border-radius: 40px;
-      padding: 3.25rem 3rem;
-    }
-  }
-
-  /* Секция с плитой уже имеет внутренний отступ — внешний убираем */
-  .section.has-slab {
-    padding-block: 1.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .section.has-slab {
-      padding-block: 2.25rem;
-    }
-  }
-
-  @media (min-width: 1100px) {
-    .section.has-slab {
-      padding-block: 3rem;
-    }
-  }
-
-  /* Грань на стыке зон: тонкая световая линия во всю ширину */
-  .zone-edge {
-    position: relative;
-    height: 1px;
-    margin: 0;
-    border: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(17, 21, 28, 0.1) 22%,
-      rgba(17, 21, 28, 0.14) 50%,
-      rgba(17, 21, 28, 0.1) 78%,
-      transparent 100%
-    );
-  }
-
-  .zone-edge::after {
+  .band-deep::before {
     content: "";
     position: absolute;
-    inset: 1px 0 auto;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(36rem 22rem at 88% 0%, rgba(222, 42, 27, 0.38), transparent 62%),
+      radial-gradient(30rem 20rem at 6% 100%, rgba(52, 102, 196, 0.22), transparent 64%);
+  }
+
+  .band-deep > * {
+    position: relative;
+  }
+
+  .band-deep .h2,
+  .band-deep .h3,
+  .band-deep .display {
+    color: #ffffff;
+  }
+
+  .band-deep .lead,
+  .band-deep .small,
+  .band-deep .caption {
+    color: var(--color-night-muted);
+  }
+
+  .band-deep .btn-line {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  .band-deep .btn-primary {
+    background: linear-gradient(180deg, #ea3a2a 0%, var(--color-accent-hot) 100%);
+  }
+
+  .band-deep .link {
+    color: #ffffff;
+    text-decoration-color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* Граница между полосами */
+  .band + .band {
+    border-top: 1px solid rgba(17, 21, 28, 0.07);
+  }
+
+  .band-deep + .band,
+  .band + .band-deep {
+    border-top: 0;
   }
 
   /* ---------- Сетка и секции ---------- */
@@ -1002,6 +954,178 @@
     min-height: 44px;
   }
 
+  /* ============================================================
+     ПЕРВЫЙ ЭКРАН: сцена
+     Единственное место, где фон живёт: шары догоняют курсор,
+     заголовок и фото наклоняются, работает параллакс прокрутки.
+     ============================================================ */
+
+  .hero-stage {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: linear-gradient(180deg, #f4f7fb 0%, #eaeef6 60%, #e8ebf3 100%);
+  }
+
+  .hero-orbs {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero-orb {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    transform: translate3d(var(--ox, 0px), var(--oy, 0px), 0);
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
+    animation: orb-float 26s ease-in-out infinite alternate;
+  }
+
+  /* Пока курсор ведёт шары, инерция считается в JS — переход мешает */
+  .hero-stage.is-live .hero-orb {
+    transition: none;
+  }
+
+  .hero-orb-1 {
+    top: -24%;
+    right: -6%;
+    width: 46rem;
+    height: 46rem;
+    background: radial-gradient(circle at 40% 40%, rgba(222, 42, 27, 0.4), rgba(222, 42, 27, 0) 66%);
+  }
+
+  .hero-orb-2 {
+    top: 12%;
+    left: -18%;
+    width: 38rem;
+    height: 38rem;
+    background: radial-gradient(circle at 55% 45%, rgba(52, 102, 196, 0.36), rgba(52, 102, 196, 0) 66%);
+    animation-duration: 34s;
+    animation-delay: -8s;
+  }
+
+  .hero-orb-3 {
+    right: 22%;
+    bottom: -34%;
+    width: 34rem;
+    height: 34rem;
+    background: radial-gradient(circle at 50% 50%, rgba(138, 86, 196, 0.3), rgba(138, 86, 196, 0) 66%);
+    animation-duration: 40s;
+    animation-delay: -17s;
+  }
+
+  .hero-orb-4 {
+    bottom: -20%;
+    left: 24%;
+    width: 30rem;
+    height: 30rem;
+    background: radial-gradient(circle at 50% 50%, rgba(28, 148, 174, 0.3), rgba(28, 148, 174, 0) 66%);
+    animation-duration: 46s;
+    animation-delay: -26s;
+  }
+
+  @keyframes orb-float {
+    from {
+      translate: 0 0;
+      scale: 1;
+    }
+
+    to {
+      translate: 3vw 4vh;
+      scale: 1.1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-orb {
+      animation: none;
+    }
+  }
+
+  /* Параллакс при прокрутке: шары уходят медленнее контента.
+     Scroll-driven анимация, без JS. */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-orbs {
+        animation: hero-parallax linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 100vh;
+      }
+
+      .hero-photo {
+        animation: photo-parallax linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 110vh;
+      }
+    }
+  }
+
+  @keyframes hero-parallax {
+    to {
+      transform: translateY(16%);
+    }
+  }
+
+  @keyframes photo-parallax {
+    to {
+      translate: 0 -4%;
+    }
+  }
+
+  /* ---------- Объёмное стекло на заголовке ---------- */
+
+  .hero-title {
+    position: relative;
+    background-image:
+      radial-gradient(13rem 13rem at var(--mx, 24%) var(--my, 12%), rgba(255, 255, 255, 0.34), transparent 60%),
+      linear-gradient(168deg, #2f3744 0%, #0e1218 38%, #161c26 64%, #333b49 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter:
+      drop-shadow(0 1px 0 rgba(255, 255, 255, 0.85))
+      drop-shadow(0 2px 1px rgba(17, 21, 28, 0.18))
+      drop-shadow(0 14px 26px rgba(17, 21, 28, 0.16));
+    transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1), filter 0.4s ease;
+  }
+
+  .hero-stage.is-live .hero-title {
+    transition: transform 0.14s ease-out, filter 0.4s ease;
+  }
+
+  .hero-title:hover {
+    filter:
+      drop-shadow(0 1px 0 rgba(255, 255, 255, 0.95))
+      drop-shadow(0 2px 1px rgba(17, 21, 28, 0.2))
+      drop-shadow(0 20px 34px rgba(17, 21, 28, 0.22))
+      drop-shadow(0 0 22px rgba(222, 42, 27, 0.18));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title {
+      transform: none;
+    }
+  }
+
+  /* Магнит: кнопка тянется к курсору, когда он рядом */
+  .hero .btn-primary {
+    transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hero .btn-primary.is-pulled {
+    transform: translate3d(var(--pull-x, 0), var(--pull-y, 0), 0);
+    transition: transform 0.12s ease-out, background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero .btn-primary.is-pulled {
+      transform: none;
+    }
+  }
+
   /* ---------- Первый экран ---------- */
 
   .hero {
@@ -1066,6 +1190,15 @@
     }
   }
 
+  .hero-photo {
+    transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .hero-stage.is-live .hero-photo {
+    transition: transform 0.16s ease-out;
+  }
+
   .hero-photo img {
     object-fit: cover;
   }
@@ -1125,8 +1258,14 @@
 
   .svc-card,
   .fact-card,
-  .steps .glass {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.66) 45%, rgba(255, 255, 255, 0.78) 100%);
+  .steps .glass,
+  .partner-cell,
+  .price-card,
+  .text-index a,
+  .logo-rail a,
+  .insurers-fold summary {
+    background: #ffffff;
+    border-color: #e3e7ee;
   }
 
   /* ---------- Указатель услуг ---------- */
@@ -1152,10 +1291,9 @@
     display: block;
     height: 100%;
     padding: 1.3rem 1.45rem;
-    border: 1px solid rgba(255, 255, 255, 0.55);
+    border: 1px solid #e3e7ee;
     border-radius: var(--radius-lg);
-    background:
-      linear-gradient(145deg, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0.5) 45%, rgba(255, 255, 255, 0.64) 100%);
+    background: #ffffff;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.95),
       inset 1px 0 0 rgba(255, 255, 255, 0.6),
