@@ -101,109 +101,18 @@
     overflow: hidden;
   }
 
-  .bg-decor {
+  /* Живой фон: канва рисует перетекающие цветовые пятна,
+     реагирует на курсор и прокрутку. Размытие — одним проходом GPU. */
+  .live-backdrop {
     position: fixed;
     inset: 0;
     z-index: -1;
-    overflow: hidden;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    background-color: #eef1f7;
-    background-image:
-      radial-gradient(70rem 45rem at 50% -14%, rgba(255, 255, 255, 0.95), transparent 62%),
-      linear-gradient(180deg, #f2f5fa 0%, #eaeef6 52%, #eceaf3 100%);
-  }
-
-  /* Зацикленный дрейф цветовых пятен под стеклом */
-  .orb {
-    position: absolute;
-    display: block;
-    border-radius: 50%;
-    will-change: transform;
-    animation: drift 34s ease-in-out infinite alternate;
-  }
-
-  .orb-1 {
-    top: -18vh;
-    right: -8vw;
-    width: 62vw;
-    height: 62vw;
-    max-width: 50rem;
-    max-height: 50rem;
-    background: radial-gradient(circle at 35% 35%, rgba(222, 42, 27, 0.3), rgba(222, 42, 27, 0) 68%);
-  }
-
-  .orb-2 {
-    top: 4vh;
-    left: -14vw;
-    width: 54vw;
-    height: 54vw;
-    max-width: 44rem;
-    max-height: 44rem;
-    background: radial-gradient(circle at 60% 40%, rgba(52, 102, 196, 0.26), rgba(52, 102, 196, 0) 68%);
-    animation-duration: 46s;
-    animation-delay: -9s;
-  }
-
-  .orb-3 {
-    bottom: -22vh;
-    left: 18vw;
-    width: 58vw;
-    height: 58vw;
-    max-width: 46rem;
-    max-height: 46rem;
-    background: radial-gradient(circle at 45% 55%, rgba(138, 86, 196, 0.22), rgba(138, 86, 196, 0) 68%);
-    animation-duration: 40s;
-    animation-delay: -18s;
-  }
-
-  .orb-4 {
-    right: -10vw;
-    bottom: -14vh;
-    width: 50vw;
-    height: 50vw;
-    max-width: 40rem;
-    max-height: 40rem;
-    background: radial-gradient(circle at 50% 50%, rgba(28, 148, 174, 0.24), rgba(28, 148, 174, 0) 68%);
-    animation-duration: 52s;
-    animation-delay: -27s;
-  }
-
-  @keyframes drift {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-
-    50% {
-      transform: translate3d(4vw, 5vh, 0) scale(1.12);
-    }
-
-    100% {
-      transform: translate3d(-5vw, -4vh, 0) scale(0.95);
-    }
-  }
-
-  /* Светлая вуаль поверх пятен: сохраняет цвет, но возвращает
-     контраст тексту, который лежит прямо на фоне */
-  .bg-decor::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.26) 100%);
-  }
-
-  /* Зерно: стекло без текстуры выглядит пластмассовым */
-  .bg-grain {
-    position: absolute;
-    inset: 0;
-    display: block;
-    opacity: 0.22;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .orb {
-      animation: none;
-    }
+    /* Канва 1/4 размера растягивается браузером — интерполяция сама
+       даёт мягкость, полноэкранный blur стоил бы кадров. */
+    transform: scale(1.06);
   }
 
   /* ---------- Материал стекла ---------- */
@@ -328,14 +237,14 @@
     isolation: isolate;
   }
 
-  /* Светлая полоса */
+  /* Светлая полоса: фон просвечивает слабо */
   .band-light {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.82);
   }
 
-  /* Тонированная полоса */
+  /* Тонированная: фон просвечивает заметно */
   .band-tint {
-    background: linear-gradient(180deg, #eef1f6 0%, #e9edf4 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.56) 0%, rgba(255, 255, 255, 0.64) 100%);
   }
 
   .band-tint::before,
@@ -368,7 +277,7 @@
   .band-deep {
     position: relative;
     overflow: hidden;
-    background: #11151c;
+    background: rgba(13, 17, 23, 0.93);
     color: #ffffff;
   }
 
@@ -963,108 +872,26 @@
   .hero-stage {
     position: relative;
     isolation: isolate;
-    overflow: hidden;
-    background: linear-gradient(180deg, #f4f7fb 0%, #eaeef6 60%, #e8ebf3 100%);
   }
 
-  .hero-orbs {
+  /* Вуаль под колонкой текста: фон остаётся живым, но не мешает читать */
+  .hero-stage::before {
+    content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
+    background: linear-gradient(100deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.46) 38%, rgba(255, 255, 255, 0) 64%);
   }
 
-  .hero-orb {
-    position: absolute;
-    display: block;
-    border-radius: 50%;
-    transform: translate3d(var(--ox, 0px), var(--oy, 0px), 0);
-    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
-    animation: orb-float 26s ease-in-out infinite alternate;
-  }
-
-  /* Пока курсор ведёт шары, инерция считается в JS — переход мешает */
-  .hero-stage.is-live .hero-orb {
-    transition: none;
-  }
-
-  .hero-orb-1 {
-    top: -24%;
-    right: -6%;
-    width: 46rem;
-    height: 46rem;
-    background: radial-gradient(circle at 40% 40%, rgba(222, 42, 27, 0.4), rgba(222, 42, 27, 0) 66%);
-  }
-
-  .hero-orb-2 {
-    top: 12%;
-    left: -18%;
-    width: 38rem;
-    height: 38rem;
-    background: radial-gradient(circle at 55% 45%, rgba(52, 102, 196, 0.36), rgba(52, 102, 196, 0) 66%);
-    animation-duration: 34s;
-    animation-delay: -8s;
-  }
-
-  .hero-orb-3 {
-    right: 22%;
-    bottom: -34%;
-    width: 34rem;
-    height: 34rem;
-    background: radial-gradient(circle at 50% 50%, rgba(138, 86, 196, 0.3), rgba(138, 86, 196, 0) 66%);
-    animation-duration: 40s;
-    animation-delay: -17s;
-  }
-
-  .hero-orb-4 {
-    bottom: -20%;
-    left: 24%;
-    width: 30rem;
-    height: 30rem;
-    background: radial-gradient(circle at 50% 50%, rgba(28, 148, 174, 0.3), rgba(28, 148, 174, 0) 66%);
-    animation-duration: 46s;
-    animation-delay: -26s;
-  }
-
-  @keyframes orb-float {
-    from {
-      translate: 0 0;
-      scale: 1;
-    }
-
-    to {
-      translate: 3vw 4vh;
-      scale: 1.1;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-orb {
-      animation: none;
-    }
-  }
-
-  /* Параллакс при прокрутке: шары уходят медленнее контента.
-     Scroll-driven анимация, без JS. */
+  /* Параллакс фото при прокрутке */
   @supports (animation-timeline: scroll()) {
     @media (prefers-reduced-motion: no-preference) {
-      .hero-orbs {
-        animation: hero-parallax linear both;
-        animation-timeline: scroll(root block);
-        animation-range: 0 100vh;
-      }
-
       .hero-photo {
         animation: photo-parallax linear both;
         animation-timeline: scroll(root block);
         animation-range: 0 110vh;
       }
-    }
-  }
-
-  @keyframes hero-parallax {
-    to {
-      transform: translateY(16%);
     }
   }
 
@@ -1879,10 +1706,13 @@
     }
   }
 
+  /* Масштаб здесь недопустим: он менял ширину секции и ломал
+     выравнивание колонок между полосами. Только прозрачность и сдвиг,
+     и только у содержимого — сами полосы неподвижны. */
   @keyframes appear {
     from {
       opacity: 0;
-      transform: translateY(26px) scale(0.985);
+      transform: translateY(18px);
     }
 
     to {
@@ -2133,8 +1963,7 @@
     backdrop-filter: none;
   }
 
-  .sheen::after,
-  .bg-grain {
+  .sheen::after {
     display: none;
   }
 }
@@ -2148,7 +1977,6 @@
     transform: none !important;
   }
 
-  .bg-decor,
   .sheen::after {
     display: none !important;
   }

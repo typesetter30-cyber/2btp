@@ -5,6 +5,7 @@ import { Header } from "@/components/site/Header";
 import { MobileDock } from "@/components/site/MobileDock";
 import { ConsultProvider } from "@/components/site/Consult";
 import { JsonLd } from "@/components/site/JsonLd";
+import { LiveBackdrop } from "@/components/site/LiveBackdrop";
 import { company } from "@/lib/site";
 import { rootMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -83,13 +84,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </filter>
           </defs>
         </svg>
-        <div className="bg-decor" aria-hidden="true">
-          <span className="orb orb-1" />
-          <span className="orb orb-2" />
-          <span className="orb orb-3" />
-          <span className="orb orb-4" />
-          <span className="bg-grain" />
-        </div>
+        <LiveBackdrop />
         <JsonLd data={organization} />
         <a
           href="#content"

@@ -129,8 +129,8 @@ export function HomePage() {
         </section>
       </HeroStage>
 
-      <section className="section band band-tint glow-cool appear" aria-labelledby="services-title">
-        <div className="wrap">
+      <section className="section band band-tint glow-cool" aria-labelledby="services-title">
+        <div className="wrap appear">
           <h2 id="services-title" className="h2 section-head">
             Услуги
           </h2>
@@ -149,8 +149,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band band-light glow-violet appear" aria-labelledby="audience-title">
-        <div className="wrap">
+      <section className="section band band-light glow-violet" aria-labelledby="audience-title">
+        <div className="wrap appear">
           <h2 id="audience-title" className="h2 section-head">
             Кому помогаем
           </h2>
@@ -183,8 +183,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band band-deep appear" aria-labelledby="pay-title">
-        <div className="wrap">
+      <section className="section band band-deep" aria-labelledby="pay-title">
+        <div className="wrap appear">
           <div className="pay-grid">
               <div>
                 <h2 id="pay-title" className="h2">
@@ -213,8 +213,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band band-tint glow-teal appear" aria-labelledby="trust-title">
-        <div className="wrap">
+      <section className="section band band-tint glow-teal" aria-labelledby="trust-title">
+        <div className="wrap appear">
           <h2 id="trust-title" className="h2 section-head">
             Что можно проверить
           </h2>
@@ -234,8 +234,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band band-light glow-cool appear" aria-labelledby="partners-title">
-        <div className="wrap">
+      <section className="section band band-light glow-cool" aria-labelledby="partners-title">
+        <div className="wrap appear">
           <h2 id="partners-title" className="h2 section-head">
             Партнёры
           </h2>
@@ -260,8 +260,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band band-tint glow-violet appear" aria-labelledby="process-title">
-        <div className="wrap">
+      <section className="section band band-tint glow-violet" aria-labelledby="process-title">
+        <div className="wrap appear">
           <h2 id="process-title" className="h2 section-head">
             Как проходит обращение
           </h2>
@@ -277,14 +277,14 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band band-light glow-warm appear">
-        <div className="wrap">
+      <section className="section band band-light glow-warm">
+        <div className="wrap appear">
           <Reviews />
         </div>
       </section>
 
-      <section className="section band band-tint glow-teal appear" aria-labelledby="self-title">
-        <div className="wrap">
+      <section className="section band band-tint glow-teal" aria-labelledby="self-title">
+        <div className="wrap appear">
         <div className="glass sheen self-band">
           <div className="self-photo">
             <Image
@@ -309,8 +309,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section band band-deep appear" aria-labelledby="cta-title">
-        <div className="wrap">
+      <section className="section band band-deep" aria-labelledby="cta-title">
+        <div className="wrap appear">
           <div className="close-grid">
             <h2 id="cta-title" className="display">
               Расскажите, какая задача стоит
