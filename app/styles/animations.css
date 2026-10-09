@@ -197,11 +197,12 @@
   }
 
   .plate-stage {
-    perspective: 1200px;
-    perspective-origin: 50% 45%;
+    /* Чем меньше перспектива, тем сильнее читается объём */
+    perspective: 820px;
+    perspective-origin: 50% 42%;
     display: grid;
     place-items: center;
-    padding-block: var(--space-6);
+    padding-block: var(--space-7);
   }
 
   /* Внешний слой вращается от прокрутки, внутренний — от курсора.
@@ -215,53 +216,193 @@
 
   .plate-tilt {
     position: relative;
-    padding: clamp(1.75rem, 1rem + 3vw, 3rem);
-    border: 1px solid var(--glass-brd-dark);
-    border-radius: var(--radius-xl);
-    background: var(--glass-bg-dark);
-    box-shadow: var(--shadow-deep);
-    backdrop-filter: blur(18px) saturate(170%);
     transform-style: preserve-3d;
     transform: rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg));
     transition: transform var(--dur-mid) var(--ease);
   }
 
+  /* Толщина стекла: от неё считаются грани и задняя стенка */
+  .plate-body {
+    --t: 30px;
+    position: relative;
+    transform-style: preserve-3d;
+  }
+
+  /* Лицевая пластина */
+  .plate-face {
+    position: relative;
+    padding: clamp(1.75rem, 1rem + 3vw, 3rem);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(
+      150deg,
+      rgba(70, 84, 104, 0.42) 0%,
+      rgba(26, 34, 45, 0.52) 46%,
+      rgba(46, 56, 72, 0.46) 100%
+    );
+    /* Фаска: светлая сверху-слева, тёмная снизу-справа */
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 1px 0 0 rgba(255, 255, 255, 0.22),
+      inset -1px 0 0 rgba(0, 0, 0, 0.35),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+      inset 0 18px 32px -28px rgba(255, 255, 255, 0.6),
+      inset 0 -24px 40px -30px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(18px) saturate(170%);
+    transform-style: preserve-3d;
+  }
+
   @supports not (backdrop-filter: blur(1px)) {
-    .plate-tilt {
-      background: rgba(22, 29, 38, 0.94);
+    .plate-face {
+      background: rgba(26, 34, 45, 0.95);
     }
   }
 
-  /* Внутренний блик сверху — «толщина» стекла */
-  .plate-tilt::before {
-    content: "";
+  /* Задняя стенка: именно она делает плашку телом, а не листом */
+  .plate-back {
     position: absolute;
     inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 42%);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(150deg, rgba(10, 14, 20, 0.92) 0%, rgba(18, 24, 32, 0.86) 100%);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+    transform: translateZ(calc(var(--t) * -1));
   }
 
-  /* Бегущий световой блик: смещается при наведении */
-  .plate-tilt::after {
+  /* Четыре торца. Видны при повороте — отсюда ощущение толщины. */
+  .plate-edge {
+    position: absolute;
+    pointer-events: none;
+    /* backface-visibility: hidden скрывал торцы: при повороте мы
+       смотрим на их изнанку. Торец — не лицевая грань, он виден всегда. */
+  }
+
+  .plate-edge-l,
+  .plate-edge-r {
+    top: var(--radius-xl);
+    bottom: var(--radius-xl);
+    width: var(--t);
+  }
+
+  .plate-edge-t,
+  .plate-edge-b {
+    left: var(--radius-xl);
+    right: var(--radius-xl);
+    height: var(--t);
+  }
+
+  .plate-edge-l {
+    left: 0;
+    transform-origin: left center;
+    transform: rotateY(90deg) translateZ(0);
+    background: linear-gradient(90deg, rgba(228, 240, 255, 0.96) 0%, rgba(150, 172, 200, 0.88) 45%, rgba(58, 72, 92, 0.92) 100%);
+  }
+
+  .plate-edge-r {
+    right: 0;
+    transform-origin: right center;
+    transform: rotateY(-90deg) translateZ(0);
+    background: linear-gradient(270deg, rgba(206, 222, 244, 0.92) 0%, rgba(126, 148, 178, 0.82) 45%, rgba(44, 56, 72, 0.92) 100%);
+  }
+
+  .plate-edge-t {
+    top: 0;
+    transform-origin: center top;
+    transform: rotateX(-90deg) translateZ(0);
+    background: linear-gradient(180deg, rgba(238, 246, 255, 0.98) 0%, rgba(168, 188, 214, 0.9) 45%, rgba(62, 76, 96, 0.92) 100%);
+  }
+
+  .plate-edge-b {
+    bottom: 0;
+    transform-origin: center bottom;
+    transform: rotateX(90deg) translateZ(0);
+    background: linear-gradient(0deg, rgba(190, 208, 232, 0.88) 0%, rgba(104, 124, 152, 0.78) 45%, rgba(30, 38, 50, 0.94) 100%);
+  }
+
+  /* Падающая тень: отдельный слой под плашкой, уезжает при наклоне */
+  .plate-shadow {
+    position: absolute;
+    inset: 16% -4% -22% -4%;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(58% 48% at 50% 50%, rgba(0, 0, 0, 0.85), transparent 74%);
+    filter: blur(34px);
+    transform: translateZ(-140px) scale(1.04);
+  }
+
+  /* Виньетка позади: на её фоне светлый торец читается как стекло */
+  .plate-halo {
+    position: absolute;
+    inset: -40% -26%;
+    z-index: -2;
+    pointer-events: none;
+    background: radial-gradient(52% 46% at 50% 50%, rgba(8, 11, 16, 0.78) 0%, transparent 72%);
+    transform: translateZ(-200px);
+  }
+
+  /* Скос по периметру: узкая светлая полоса внутри края — так
+     выглядит фаска на настоящем стекле */
+  .plate-bevel {
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-radius: var(--radius-xl);
+    pointer-events: none;
+    background:
+      linear-gradient(
+          150deg,
+          rgba(255, 255, 255, 0.75) 0%,
+          rgba(255, 255, 255, 0.12) 26%,
+          rgba(255, 255, 255, 0) 48%,
+          rgba(255, 255, 255, 0.1) 74%,
+          rgba(255, 255, 255, 0.45) 100%
+        )
+        border-box;
+    mask:
+      linear-gradient(#000 0 0) padding-box exclude,
+      linear-gradient(#000 0 0);
+    -webkit-mask:
+      linear-gradient(#000 0 0) padding-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    transform: translateZ(1px);
+  }
+
+  /* Блик-отражение: яркое пятно, ползущее по стеклу при наклоне */
+  .plate-face::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    background: linear-gradient(105deg, transparent 36%, rgba(255, 255, 255, 0.22) 50%, transparent 64%);
+    background: radial-gradient(
+      70% 50% at calc(50% + var(--spec, 0px)) -10%,
+      rgba(255, 255, 255, 0.32) 0%,
+      rgba(255, 255, 255, 0.08) 38%,
+      transparent 70%
+    );
+  }
+
+  /* Бегущий световой блик по наведению */
+  .plate-face::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 36%, rgba(255, 255, 255, 0.26) 50%, transparent 64%);
     background-size: 260% 100%;
     background-position: 150% 0;
     transition: background-position 1s var(--ease);
   }
 
-  .plate-tilt:hover::after {
+  .plate-body:hover .plate-face::after {
     background-position: -40% 0;
   }
 
   /* Слои внутри плашки: разная глубина даёт объём */
   .plate-logo {
-    transform: translateZ(55px);
+    transform: translateZ(124px);
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55));
   }
 
   .plate-name {
@@ -271,15 +412,15 @@
     line-height: 1.04;
     letter-spacing: -0.03em;
     color: #ffffff;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35), 0 12px 26px rgba(0, 0, 0, 0.45);
-    transform: translateZ(38px);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 10px 20px rgba(0, 0, 0, 0.55), 0 24px 44px rgba(0, 0, 0, 0.45);
+    transform: translateZ(84px);
   }
 
   .plate-sub {
     margin-top: var(--space-3);
     font-size: var(--text-small);
-    color: var(--color-night-muted);
-    transform: translateZ(20px);
+    color: #c9d1db;
+    transform: translateZ(50px);
   }
 
   .plate-meta {
@@ -290,8 +431,9 @@
     padding-top: var(--space-4);
     border-top: 1px solid var(--glass-brd-dark);
     font-size: var(--text-caption);
-    color: var(--color-night-muted);
-    transform: translateZ(14px);
+    /* Светлее, чем общий приглушённый: фон плашки светлее тёмной полосы */
+    color: #c2cad4;
+    transform: translateZ(30px);
   }
 
   /* Основной путь: вращение привязано к прокрутке средствами CSS */
@@ -311,13 +453,13 @@
      нужно в этих двух кадрах. */
   @keyframes plate-spin {
     from {
-      --ry: -20deg;
-      --rx: 12deg;
+      --ry: -26deg;
+      --rx: 14deg;
     }
 
     to {
-      --ry: 20deg;
-      --rx: -12deg;
+      --ry: 26deg;
+      --rx: -14deg;
     }
   }
 
@@ -332,6 +474,12 @@
     .plate-tilt {
       transform: none !important;
       animation: none !important;
+    }
+
+    /* Без вращения торцы не нужны — остаётся плоская карточка */
+    .plate-edge,
+    .plate-back {
+      display: none;
     }
   }
 

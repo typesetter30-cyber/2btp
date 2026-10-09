@@ -96,6 +96,8 @@ export function GlassPlate() {
           tiltX = lerp(tiltX, targetTiltX, 0.1);
           plate.style.setProperty("--tilt-y", `${tiltY.toFixed(2)}deg`);
           plate.style.setProperty("--tilt-x", `${tiltX.toFixed(2)}deg`);
+          // Отражение ползёт против наклона — как блик на настоящем стекле
+          plate.style.setProperty("--spec", `${(-tiltY * 9).toFixed(1)}px`);
         }),
       );
     }
@@ -118,22 +120,34 @@ export function GlassPlate() {
         <div className="plate-stage">
           <div ref={plateRef} className="plate">
             <div className="plate-tilt">
-            <Image
-              src="/brand/logo.png"
-              alt=""
-              width={72}
-              height={72}
-              className="plate-logo h-14 w-14"
-            />
-            <p id="plate-title" className="plate-name">
-              {company.name}
-            </p>
-            <p className="plate-sub">{company.legalName}</p>
-            <p className="plate-meta">
-              <span>ИНН {company.inn}</span>
-              <span>ОГРН {company.ogrn}</span>
-              <span>с {company.startYear} года</span>
-            </p>
+              <div className="plate-body">
+                <span className="plate-halo" aria-hidden="true" />
+                <span className="plate-shadow" aria-hidden="true" />
+                <span className="plate-back" aria-hidden="true" />
+                <span className="plate-edge plate-edge-l" aria-hidden="true" />
+                <span className="plate-edge plate-edge-r" aria-hidden="true" />
+                <span className="plate-edge plate-edge-t" aria-hidden="true" />
+                <span className="plate-edge plate-edge-b" aria-hidden="true" />
+                <div className="plate-face">
+                  <span className="plate-bevel" aria-hidden="true" />
+                  <Image
+                    src="/brand/logo.png"
+                    alt=""
+                    width={72}
+                    height={72}
+                    className="plate-logo h-14 w-14"
+                  />
+                  <p id="plate-title" className="plate-name">
+                    {company.name}
+                  </p>
+                  <p className="plate-sub">{company.legalName}</p>
+                  <p className="plate-meta">
+                    <span>ИНН {company.inn}</span>
+                    <span>ОГРН {company.ogrn}</span>
+                    <span>с {company.startYear} года</span>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
