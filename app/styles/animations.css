@@ -1,0 +1,406 @@
+/* ============================================================
+   АНИМАЦИИ
+   Анимируются только transform, opacity и filter.
+   Скорость и дистанция задаются токенами в tokens.css.
+   ============================================================ */
+
+@property --ry {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --rx {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@layer components {
+  /* ---------------------------------------------------------
+     Aurora: три-четыре размытых пятна, медленный дрейф
+     --------------------------------------------------------- */
+
+  .aurora {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: clip;
+    pointer-events: none;
+  }
+
+  .aurora-blob {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    /* Без filter: blur. Замер показал, что размытие пятен — вся
+       просадка кадров (33 мс против 16). Мягкость даёт многоступенчатый
+       градиент: визуально то же, стоит ноль. */
+    opacity: 0.8;
+    will-change: transform;
+    animation: aurora-drift 22s var(--ease) infinite alternate;
+  }
+
+  .aurora-1 {
+    top: -26%;
+    right: -10%;
+    width: 46rem;
+    height: 46rem;
+    background: radial-gradient(circle at 50% 50%, rgb(var(--aurora-1) / 0.5) 0%, rgb(var(--aurora-1) / 0.3) 26%, rgb(var(--aurora-1) / 0.12) 48%, rgb(var(--aurora-1) / 0.04) 66%, rgb(var(--aurora-1) / 0) 80%);
+  }
+
+  .aurora-2 {
+    top: 6%;
+    left: -16%;
+    width: 38rem;
+    height: 38rem;
+    background: radial-gradient(circle at 50% 50%, rgb(var(--aurora-2) / 0.44) 0%, rgb(var(--aurora-2) / 0.26) 26%, rgb(var(--aurora-2) / 0.1) 48%, rgb(var(--aurora-2) / 0.03) 66%, rgb(var(--aurora-2) / 0) 80%);
+    animation-duration: 26s;
+    animation-delay: -7s;
+  }
+
+  .aurora-3 {
+    right: 16%;
+    bottom: -34%;
+    width: 34rem;
+    height: 34rem;
+    background: radial-gradient(circle at 50% 50%, rgb(var(--aurora-3) / 0.38) 0%, rgb(var(--aurora-3) / 0.22) 26%, rgb(var(--aurora-3) / 0.09) 48%, rgb(var(--aurora-3) / 0.03) 66%, rgb(var(--aurora-3) / 0) 80%);
+    animation-duration: 19s;
+    animation-delay: -13s;
+  }
+
+  .aurora-4 {
+    bottom: -24%;
+    left: 20%;
+    width: 30rem;
+    height: 30rem;
+    background: radial-gradient(circle at 50% 50%, rgb(var(--aurora-4) / 0.36) 0%, rgb(var(--aurora-4) / 0.2) 26%, rgb(var(--aurora-4) / 0.08) 48%, rgb(var(--aurora-4) / 0.03) 66%, rgb(var(--aurora-4) / 0) 80%);
+    animation-duration: 24s;
+    animation-delay: -18s;
+  }
+
+  @keyframes aurora-drift {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+      transform: translate3d(4vw, 5vh, 0) scale(1.14);
+    }
+  }
+
+  /* На тёмных полосах пятна ярче: им есть куда светить */
+  .band-deep .aurora-blob {
+    opacity: 1;
+  }
+
+  /* Мобильные: меньше слоёв и слабее размытие */
+  @media (max-width: 767px) {
+    .aurora-3,
+    .aurora-4 {
+      display: none;
+    }
+
+    .aurora-blob {
+      opacity: 0.7;
+    }
+  }
+
+  /* Свечение за курсором. Координаты ставит JS, только pointer: fine */
+  .cursor-glow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      22rem 22rem at var(--gx, 50%) var(--gy, 50%),
+      rgba(222, 42, 27, 0.16),
+      transparent 68%
+    );
+    transition: opacity var(--dur-slow) var(--ease);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .is-pointing .cursor-glow {
+      opacity: 1;
+    }
+  }
+
+  /* ---------------------------------------------------------
+     Появление при прокрутке
+     Состояние до появления ставит JS классом .reveal-ready,
+     поэтому без JS контент виден сразу.
+     --------------------------------------------------------- */
+
+  .reveal-ready [data-reveal] {
+    opacity: 0;
+    filter: blur(var(--reveal-blur));
+    transform: translateY(var(--reveal-shift));
+    transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease),
+      filter var(--dur-slow) var(--ease);
+    transition-delay: calc(var(--i, 0) * var(--stagger));
+  }
+
+  .reveal-ready [data-reveal="left"] {
+    transform: translateX(calc(var(--reveal-shift) * -1.4));
+  }
+
+  .reveal-ready [data-reveal="right"] {
+    transform: translateX(calc(var(--reveal-shift) * 1.4));
+  }
+
+  .reveal-ready [data-reveal="scale"] {
+    transform: scale(0.94);
+  }
+
+  .reveal-ready [data-reveal].is-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+
+  /* Заголовок по словам: слова делит JS */
+  .reveal-ready .split-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.5em);
+    transition: opacity var(--dur-mid) var(--ease), transform var(--dur-mid) var(--ease);
+    transition-delay: calc(var(--w, 0) * 45ms);
+  }
+
+  .reveal-ready .is-visible .split-word {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-ready [data-reveal],
+    .reveal-ready .split-word {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* ---------------------------------------------------------
+     3D-стеклянная плашка с логотипом
+     --------------------------------------------------------- */
+
+  .plate-section {
+    position: relative;
+    isolation: isolate;
+    /* clip, а не hidden: hidden создаёт контейнер прокрутки и
+       animation-timeline: view() внутри него перестаёт двигаться */
+    overflow: clip;
+  }
+
+  .plate-stage {
+    perspective: 1200px;
+    perspective-origin: 50% 45%;
+    display: grid;
+    place-items: center;
+    padding-block: var(--space-6);
+  }
+
+  /* Внешний слой вращается от прокрутки, внутренний — от курсора.
+     Разделены, потому что общий transform перезаписал бы один другим. */
+  .plate {
+    width: min(100%, 30rem);
+    transform-style: preserve-3d;
+    transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+    transition: transform var(--dur-mid) var(--ease);
+  }
+
+  .plate-tilt {
+    position: relative;
+    padding: clamp(1.75rem, 1rem + 3vw, 3rem);
+    border: 1px solid var(--glass-brd-dark);
+    border-radius: var(--radius-xl);
+    background: var(--glass-bg-dark);
+    box-shadow: var(--shadow-deep);
+    backdrop-filter: blur(18px) saturate(170%);
+    transform-style: preserve-3d;
+    transform: rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg));
+    transition: transform var(--dur-mid) var(--ease);
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .plate-tilt {
+      background: rgba(22, 29, 38, 0.94);
+    }
+  }
+
+  /* Внутренний блик сверху — «толщина» стекла */
+  .plate-tilt::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 42%);
+  }
+
+  /* Бегущий световой блик: смещается при наведении */
+  .plate-tilt::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 36%, rgba(255, 255, 255, 0.22) 50%, transparent 64%);
+    background-size: 260% 100%;
+    background-position: 150% 0;
+    transition: background-position 1s var(--ease);
+  }
+
+  .plate-tilt:hover::after {
+    background-position: -40% 0;
+  }
+
+  /* Слои внутри плашки: разная глубина даёт объём */
+  .plate-logo {
+    transform: translateZ(55px);
+  }
+
+  .plate-name {
+    margin-top: var(--space-4);
+    font-size: clamp(1.6rem, 1.1rem + 2vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35), 0 12px 26px rgba(0, 0, 0, 0.45);
+    transform: translateZ(38px);
+  }
+
+  .plate-sub {
+    margin-top: var(--space-3);
+    font-size: var(--text-small);
+    color: var(--color-night-muted);
+    transform: translateZ(20px);
+  }
+
+  .plate-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--glass-brd-dark);
+    font-size: var(--text-caption);
+    color: var(--color-night-muted);
+    transform: translateZ(14px);
+  }
+
+  /* Основной путь: вращение привязано к прокрутке средствами CSS */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .plate:not(.is-js-driven) {
+        animation: plate-spin linear both;
+        animation-timeline: view();
+        animation-range: entry 10% exit 90%;
+      }
+    }
+  }
+
+  /* Углы вращения плашки. Значения здесь — литералы: внутри
+     @keyframes var() не интерполируется, поэтому анимируем сами
+     переменные, зарегистрированные как <angle>. Менять диапазон
+     нужно в этих двух кадрах. */
+  @keyframes plate-spin {
+    from {
+      --ry: -20deg;
+      --rx: 12deg;
+    }
+
+    to {
+      --ry: 20deg;
+      --rx: -12deg;
+    }
+  }
+
+  /* Когда вращение считает JS (нет поддержки scroll-timeline),
+     переход выключаем: сглаживание уже сделано через lerp */
+  .plate.is-js-driven {
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plate,
+    .plate-tilt {
+      transform: none !important;
+      animation: none !important;
+    }
+  }
+
+  /* ---------------------------------------------------------
+     Магнитная кнопка
+     --------------------------------------------------------- */
+
+  .magnetic {
+    transition: transform var(--dur-mid) var(--ease);
+  }
+
+  .magnetic.is-pulled {
+    transform: translate3d(var(--pull-x, 0), var(--pull-y, 0), 0);
+    transition: transform 0.12s linear;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .magnetic.is-pulled {
+      transform: none;
+    }
+  }
+
+  /* ---------------------------------------------------------
+     Параллакс декоративных слоёв
+     --------------------------------------------------------- */
+
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      [data-parallax] {
+        animation: parallax-shift linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 120vh;
+      }
+    }
+  }
+
+  @keyframes parallax-shift {
+    to {
+      translate: 0 calc(var(--parallax, 6) * -1%);
+    }
+  }
+
+  /* ---------------------------------------------------------
+     Печать: анимации и декор не нужны
+     --------------------------------------------------------- */
+
+  @media print {
+    .reveal-ready [data-reveal],
+    .reveal-ready .split-word {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+    }
+
+    .aurora,
+    .cursor-glow,
+    .scroll-progress,
+    body::after {
+      display: none !important;
+    }
+
+    .plate,
+    .plate-tilt {
+      transform: none !important;
+      animation: none !important;
+    }
+
+    .plate-tilt {
+      background: #11151c !important;
+    }
+  }
+}

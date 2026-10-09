@@ -1,0 +1,111 @@
+/* ============================================================
+   ТОКЕНЫ
+   Единственное место, где заданы цвет, шрифт, ритм и движение.
+   Менять оформление сайта нужно здесь.
+   ============================================================ */
+
+@theme {
+  /* --- Шрифт --- */
+  --font-sans: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
+  /* legacy-алиас: часть разметки ещё ссылается на font-serif */
+  --font-serif: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
+
+  /* --- Поверхности --- */
+  --color-paper: #ffffff;
+  --color-paper-2: #f2f4f8;
+  --color-surface: #f2f4f8;
+  --color-card: #ffffff;
+
+  /* --- Текст --- */
+  --color-ink: #0e1319;
+  --color-muted: #434c59;
+  --color-faint: #4d5664;
+
+  /* --- Линии --- */
+  --color-line: #e3e7ee;
+  --color-line-strong: #0e1319;
+
+  /* --- Фирменный красный (взят из логотипа) --- */
+  --color-brand: #a62112;
+  --color-brand-dark: #8a1a0e;
+  --color-accent-hot: #de2a1b;
+
+  /* --- Тёмные секции --- */
+  --color-night: #0e1319;
+  --color-night-2: #161d26;
+  --color-night-line: #28313d;
+  --color-night-muted: #a7b0bd;
+}
+
+:root {
+  /* --- Вспомогательные цвета для градиентов и aurora --- */
+  --aurora-1: 222 42 27; /* фирменный красный */
+  --aurora-2: 46 104 200; /* синий */
+  --aurora-3: 122 79 208; /* фиолетовый */
+  --aurora-4: 22 150 176; /* бирюзовый */
+
+  /* --- Типографика: плавные размеры --- */
+  --text-display: clamp(2.2rem, 1.2rem + 4.2vw, 4.25rem);
+  --text-h1: clamp(2rem, 1.25rem + 3vw, 3.4rem);
+  --text-h2: clamp(1.6rem, 1.2rem + 1.7vw, 2.45rem);
+  --text-h3: clamp(1.1rem, 1.02rem + 0.35vw, 1.3rem);
+  --text-lead: clamp(1.05rem, 1rem + 0.35vw, 1.2rem);
+  --text-body: 1.0625rem;
+  --text-small: 0.9375rem;
+  --text-caption: 0.8125rem;
+
+  --leading-tight: 1.06;
+  --leading-heading: 1.14;
+  --leading-body: 1.6;
+  --tracking-display: -0.032em;
+  --tracking-heading: -0.022em;
+
+  /* --- Ритм: шаг 4px --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --section-y: clamp(3rem, 1.5rem + 6vw, 6.5rem);
+  --wrap: 80rem;
+  --gutter: clamp(1rem, 0.4rem + 2vw, 2rem);
+
+  /* --- Радиусы --- */
+  --radius-xs: 10px;
+  --radius-sm: 14px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+
+  /* --- Тени --- */
+  --shadow-sm: 0 1px 2px rgba(14, 19, 25, 0.05);
+  --shadow-card: 0 1px 2px rgba(14, 19, 25, 0.04), 0 12px 28px -14px rgba(14, 19, 25, 0.18);
+  --shadow-lift: 0 2px 4px rgba(14, 19, 25, 0.05), 0 26px 50px -20px rgba(14, 19, 25, 0.28);
+  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 24px 60px -24px rgba(14, 19, 25, 0.35);
+  --shadow-deep: 0 30px 70px -30px rgba(0, 0, 0, 0.6);
+
+  /* --- Движение --- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.3s;
+  --dur-mid: 0.6s;
+  --dur-slow: 0.9s;
+  --reveal-shift: 28px;
+  --reveal-blur: 6px;
+  --stagger: 70ms;
+
+  /* --- Стекло --- */
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-brd: rgba(255, 255, 255, 0.72);
+  --glass-blur: 14px;
+  --glass-bg-dark: rgba(22, 29, 38, 0.6);
+  --glass-brd-dark: rgba(255, 255, 255, 0.14);
+
+  /* --- 3D-плашка: пределы вращения --- */
+  --plate-rotate-y: 20deg;
+  --plate-rotate-x: 12deg;
+}

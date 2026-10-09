@@ -18,6 +18,7 @@ export function Header() {
   const pathname = normalize(usePathname() || "/");
   const { openConsult } = useConsult();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -30,7 +31,18 @@ export function Header() {
 
   useEffect(() => {
     setMenuOpen(false);
+    setServicesOpen(false);
   }, [pathname]);
+
+  // Esc закрывает выпадающее меню «Услуги»
+  useEffect(() => {
+    if (!servicesOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setServicesOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [servicesOpen]);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
@@ -42,7 +54,7 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -62,7 +74,7 @@ export function Header() {
       }
       if (event.key !== "Tab") return;
       const items = [menuButtonRef.current, ...Array.from(menu?.querySelectorAll<HTMLElement>("a, button") ?? [])].filter(
-        (item): item is HTMLElement => Boolean(item) && !item.hasAttribute("disabled"),
+        (item): item is HTMLElement => item !== null && !item.hasAttribute("disabled"),
       );
       if (!items.length) return;
       const firstItem = items[0];
@@ -96,14 +108,28 @@ export function Header() {
 
   return (
     <header className={`site-header sticky top-0 z-50 ${scrolled ? "is-scrolled" : ""}`}>
-      <div className="wrap flex h-16 items-center justify-between gap-3">
+      <div className="wrap header-inner">
         <Logo />
         <nav className="hidden items-center gap-6 xl:gap-7 lg:flex" aria-label="Основное меню">
-          <div className="group relative">
-            <button type="button" className="nav-link min-h-11" aria-haspopup="true">
+          <div
+            className="relative"
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => setServicesOpen(false)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setServicesOpen(false);
+            }}
+          >
+            <button
+              type="button"
+              className="nav-link min-h-11"
+              aria-haspopup="true"
+              aria-expanded={servicesOpen}
+              onClick={() => setServicesOpen((value) => !value)}
+              onFocus={() => setServicesOpen(true)}
+            >
               Услуги
             </button>
-            <div className="nav-drop absolute top-full left-0 z-20 w-72 pt-3">
+            <div className={`nav-drop absolute top-full left-0 z-20 w-80 pt-3 ${servicesOpen ? "is-open" : ""}`}>
               <ul className="nav-panel overflow-hidden py-1">
                 {services.map((service) => (
                   <li key={service.href}>
@@ -125,7 +151,7 @@ export function Header() {
           <a href={company.phoneHref} className="nav-link min-h-11 inline-flex items-center">
             {company.phoneDisplay}
           </a>
-          <ConsultButton variant="quiet">Консультация</ConsultButton>
+          <ConsultButton className="magnetic min-h-11 px-5 text-[0.9375rem]">Консультация</ConsultButton>
         </nav>
         <div className="flex shrink-0 items-center gap-2 lg:hidden">
           <a

@@ -6,7 +6,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer border-t border-night-line bg-night text-paper">
+    <footer className="site-footer">
       <div className="wrap grid gap-10 py-12 md:grid-cols-12">
         <div className="md:col-span-4">
           <Logo inverted />
@@ -59,7 +59,7 @@ export function Footer() {
         <div className="wrap flex flex-col gap-3 py-5 caption text-night-muted md:flex-row md:items-center md:justify-between">
           <p suppressHydrationWarning>
             © {year}{" "}
-            <a href="https://2btp.ru" className="hover:text-paper">
+            <a href="https://2btp.ru">
               2btp.ru
             </a>
           </p>

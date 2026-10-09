@@ -1,27 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { MobileDock } from "@/components/site/MobileDock";
 import { ConsultProvider } from "@/components/site/Consult";
 import { JsonLd } from "@/components/site/JsonLd";
+import { Reveal } from "@/components/fx/Reveal";
+import { ScrollProgress } from "@/components/fx/ScrollProgress";
+import { Interactions } from "@/components/fx/Interactions";
 import { company } from "@/lib/site";
 import { rootMetadata } from "@/lib/seo";
 import "./globals.css";
 
-const sans = Source_Sans_3({
+const manrope = Manrope({
   subsets: ["cyrillic", "latin"],
-  weight: ["400", "600"],
-  variable: "--font-source-sans",
-  display: "swap",
-  adjustFontFallback: true,
-  preload: true,
-});
-
-const serif = Source_Serif_4({
-  subsets: ["cyrillic", "latin"],
-  weight: ["500", "600"],
-  variable: "--font-serif-src",
+  variable: "--font-manrope",
   display: "swap",
   adjustFontFallback: true,
   preload: true,
@@ -30,7 +23,7 @@ const serif = Source_Serif_4({
 export const metadata: Metadata = rootMetadata;
 
 export const viewport: Viewport = {
-  themeColor: "#f3f0ea",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -66,20 +59,23 @@ const organization = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ru" className={`${sans.variable} ${serif.variable}`}>
+    <html lang="ru" className={manrope.variable}>
       <body>
         <JsonLd data={organization} />
         <a
           href="#content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
         >
           К содержанию
         </a>
+        <ScrollProgress />
         <ConsultProvider>
           <Header />
           <main id="content">{children}</main>
           <Footer />
           <MobileDock />
+          <Reveal />
+          <Interactions />
         </ConsultProvider>
       </body>
     </html>
